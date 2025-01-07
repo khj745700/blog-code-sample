@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>sse-sample-front</title>
+
+</head>
+<body>
+
+<script>
+    const eventSource = new EventSource('/sse/connection');
+    eventSource.onopen = (event) => {
+        const div = document.createElement('div');
+        div.textContent = `connection !`;
+        console.log("connection : ", event);
+        document.body.appendChild(div);
+    }
+
+    eventSource.addEventListener('info', (event) => {
+        const div = document.createElement('div');
+        div.textContent = `message ! type : ${event.type}, data : ${event.data}`;
+        console.log("get data : ", event);
+        document.body.appendChild(div);
+    });
+
+    eventSource.onerror = (event) => {
+        const div = document.createElement('div');
+        div.textContent = `connection close !`;
+        console.log("connection close : ", event);
+        document.body.appendChild(div);
+        document.body.appendChild(document.createElement('br'));
+    }
+</script>
+</body>
+
+
+</html>
